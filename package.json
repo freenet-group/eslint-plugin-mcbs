@@ -1,0 +1,46 @@
+{
+  "type": "module",
+  "name": "@freenet-group/eslint-plugin-mcbs",
+  "version": "0.0.1",
+  "author": "Benjamin Pahl",
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "npm run generate:sbom",
+    "generate:sbom": "npx @cyclonedx/cyclonedx-npm --output-file ./src/.generated/sbom.json",
+    "lint": "npm run lint:code && npm run lint:test",
+    "lint:code": "eslint lib/**/*.js",
+    "lint:test": "eslint tests/**/*.js",
+    "lint:fix": "npm run lint:code -- --fix && npm run lint:test -- --fix",
+    "mocha": "mocha 'tests/**/*.spec.js'",
+    "precommit": "npm run test && npm run lint:fix && npm run prettier:write ",
+    "prettier": "npm run prettier:write",
+    "prettier:check": "prettier -c .",
+    "prettier:write": "prettier -w -l .",
+    "test": "npm run mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freenet-group/eslint-plugin-mcbs"
+  },
+  "keywords": [
+    "eslint",
+    "eslint-plugin",
+    "mcbs"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "peerDependencies": {
+    "eslint": "8.57.0"
+  },
+  "devDependencies": {
+    "@cyclonedx/cyclonedx-npm": "^1.19.3",
+    "@eslint/js": "^9.9.1",
+    "eslint": "^9.9.1",
+    "eslint-plugin-mocha": "^10.5.0",
+    "globals": "^15.9.0",
+    "mocha": "10.7.3",
+    "prettier": "3.3.3"
+  }
+}

@@ -1,1 +1,1 @@
-"# eslint-plugin-mcbs" 
+"# eslint-plugin-mcbs"
