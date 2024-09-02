@@ -99,7 +99,7 @@ jobs:
           fi
 
       - name: Neuen Versions-Tag einchecken und in package.json schreiben
-        uses: npm version
+        run: npm version
         env:
           VERSION: ${{ steps.version-calculation.outputs.new_version }}
 
