@@ -16,9 +16,7 @@ concurrency:
 
 jobs:
   publish:
-    name: Publish to GitHub Packages
     runs-on: ubuntu-latest
-
     steps:
       # Vorbereitung
       - name: Entweder die Übergebene Version oder die aktuelle Version auslesen
@@ -42,13 +40,16 @@ jobs:
           cache: 'npm'
           registry-url: 'https://npm.pkg.github.com/'
 
-      - name: Install dependencies
+      - name: Dpendencies installieren
         run: npm install
 
-      - name: Build the package
-        run: npm run build
+      - name: Neuen Versions-Tag in package.json schreiben
+        run: npm version
+        env:
+          VERSION: ${{ steps.version-calculation.outputs.new_version }}
 
-      - name: Publish to GitHub Packages
+      # Veröffentlichen
+      - name: Veröffentlichen
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
