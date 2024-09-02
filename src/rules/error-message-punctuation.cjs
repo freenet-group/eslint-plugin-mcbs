@@ -14,7 +14,7 @@ module.exports = {
       if (typeof message === 'string' && !/[.!?]$/.test(message.trim())) {
         context.report({
           node,
-          message: 'Error messages should end with a proper punctuation mark (., !, ?).',
+          message: 'Error messages should end with a proper punctuation like ".", "!" or "?".',
           fix(fixer) {
             const trimmedMessage = message.trim()
             const range = node.range

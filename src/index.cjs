@@ -5,7 +5,7 @@ module.exports = {
   configs: {
     recommended: {
       rules: {
-        'error-message-period': 'warn'
+        '@freenet-group/mcbs/error-message-period': 'warn'
       }
     }
   }

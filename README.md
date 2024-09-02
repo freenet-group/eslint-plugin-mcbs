@@ -22,8 +22,6 @@ npm install --save-dev @freenet-group/eslint-plugin-mcbs
 
 Füge das Plugin zu deiner ESLint-Konfiguration hinzu:
 
-### .eslintrc oder .eslintrc.json (eslint < 9)
-
 ```json
 {
   "plugins": ["@freenet-group/eslint-plugin-mcbs"],
@@ -36,14 +34,12 @@ Anpassung des Error-Levels:
 ```json
 {
   "rules": {
-    "@freenet-group/mcbs/error-message-punctuation": "warn"
+    "@freenet-group/mcbs/error-message-punctuation": "error"
   }
 }
 ```
 
-###
-
 ### Regeln
 
 - `@freenet-group/mcbs/error-message-punctuation`: Stellt sicher, dass Fehlermeldungen mit einem Satzzeichen enden.
-  - `--fix`: Fügt automatisch einen "." am Ende der Fehlermeldung hinzu.
+  - `--fix`: Fügt automatisch einen Punkt "." am Ende der Fehlermeldung hinzu.
