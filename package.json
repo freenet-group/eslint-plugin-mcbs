@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@freenet-group/eslint-plugin-mcbs",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "author": "Benjamin Pahl",
   "license": "MIT",
   "main": "src/index.js",
