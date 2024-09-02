@@ -46,7 +46,7 @@ jobs:
       - name: Neuen Versions-Tag in package.json schreiben
         run: npm version
         env:
-          VERSION: ${{ steps.version-calculation.outputs.new_version }}
+          VERSION: ${{ steps.determine-version.outputs.VERSION }}
 
       # Veröffentlichen
       - name: Veröffentlichen
