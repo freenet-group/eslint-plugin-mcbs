@@ -1,0 +1,6 @@
+{
+  "extension": ["ts"],
+  "jobs": 3,
+  "parallel": true,
+  "timeout": 90000
+}
