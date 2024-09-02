@@ -99,7 +99,7 @@ jobs:
           fi
 
       - name: Neuen Versions-Tag einchecken
-        uses: npm version
+        uses: actions-ecosystem/action-push-tag@v1
         with:
           tag: ${{ steps.version-calculation.outputs.new_version }}
           message: '${{ steps.version-calculation.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
