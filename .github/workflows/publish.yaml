@@ -44,9 +44,8 @@ jobs:
         run: npm install
 
       - name: Neuen Versions-Tag in package.json schreiben
-        run: npm version
-        env:
-          VERSION: ${{ steps.determine-version.outputs.VERSION }}
+        run: |
+          sed -i "s/\"version\": \".*\"/\"version\": \"${{ steps.determine-version.outputs.VERSION }}\"/" package.json
 
       # Veröffentlichen
       - name: Veröffentlichen
