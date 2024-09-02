@@ -52,17 +52,3 @@ jobs:
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Cleanup
-      - name: Namen aus package.json ermitteln
-        id: read-package-name
-        run: |
-          echo "PACKAGE_NAME=$(node -p "require('./package.json').name")" >> $GITHUB_ENV
-
-      - uses: actions/delete-package-versions@v5
-        if: success()
-        with:
-          package-name: ${{ steps.read-package-name.outputs.PACKAGE_NAME }}
-          package-type: 'npm'
-          min-versions-to-keep: 3
-          ignore-versions: '^(0|[1-9]\\d*)\\.0\\.0$'
