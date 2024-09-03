@@ -14,8 +14,9 @@
 
 ## Verlinkte Issues
 
-| Issue                                          | Beschreibung | Status | Art der Verbindung |
-| ---------------------------------------------- | ------------ | ------ | ------------------ |
-| <!-- IMPLEMENTED_LINKED_ISSUES_PLACEHOLDER --> |              |        |                    |
+| Issue | Beschreibung | Status | Art der Verbindung |
+| ----- | ------------ | ------ | ------------------ |
+
+<!-- IMPLEMENTED_LINKED_ISSUES_PLACEHOLDER -->
 
 ---

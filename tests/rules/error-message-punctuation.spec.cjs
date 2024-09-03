@@ -19,17 +19,23 @@ ruleTester.run('error-message-punctuation', rule, {
   invalid: [
     {
       code: 'throw new Error("Error message");',
-      errors: [{message: 'Error messages should end with a proper punctuation mark (., !, ?).'}],
+      errors: [
+        {message: 'Error messages should end with a proper punctuation like ".", "!" or "?".'}
+      ],
       output: 'throw new Error("Error message.");'
     },
     {
       code: 'throw new CustomError("Custom error message");',
-      errors: [{message: 'Error messages should end with a proper punctuation mark (., !, ?).'}],
+      errors: [
+        {message: 'Error messages should end with a proper punctuation like ".", "!" or "?".'}
+      ],
       output: 'throw new CustomError("Custom error message.");'
     },
     {
       code: 'throw new AnotherError("Another message");',
-      errors: [{message: 'Error messages should end with a proper punctuation mark (., !, ?).'}],
+      errors: [
+        {message: 'Error messages should end with a proper punctuation like ".", "!" or "?".'}
+      ],
       output: 'throw new AnotherError("Another message.");'
     }
   ]
