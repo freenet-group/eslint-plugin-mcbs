@@ -256,16 +256,15 @@ jobs:
           # Platzhalter austauschen
           echo "Platzhalter im Template austauschen"
 
-          # Leerzeile zwischen Tabelle und Platzhalter entfernen
-          sed -i '/^| \+\| \+\| \+\| \+\|$/N;/^\n$/d' "$template_file"
-
           ## Tabellen
           echo "IssueList setzen"
           echo "$issueListLines"
-          sed -i "s#<!-- IMPLEMENTED_ISSUES_PLACEHOLDER -->#$issueListLines#" "$template_file"
+          # Replace the placeholder and the preceding empty line
+          sed -i "/<!-- IMPLEMENTED_ISSUES_PLACEHOLDER -->/{n;s/^$/$issueListLines/}" "$template_file"
           echo "Verlinkte Tickets setzen"
           echo "$linkedIssuesListLines"
-          sed -i "s/<!-- IMPLEMENTED_LINKED_ISSUES_PLACEHOLDER -->/$linkedIssuesListLines/" "$template_file"
+          # Replace the placeholder and the preceding empty line
+          sed -i "/<!-- IMPLEMENTED_LINKED_ISSUES_PLACEHOLDER -->/{n;s/^$/$linkedIssuesListLines/}" "$template_file"
 
           ## EPIC
           echo "EPIC setzen"

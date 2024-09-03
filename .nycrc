@@ -1,8 +1,0 @@
-{
-  "check-coverage": true,
-  "reporter": ["lcov", "text", "clover"],
-  "lines": 80,
-  "skip-full": true,
-  "all": true,
-  "exclude": ["**/.generated/*", "coverage/*"]
-}
