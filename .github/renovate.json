@@ -1,4 +1,4 @@
 {
-  "extends": ["github>freenet-group/mcbscore-renovate:aws"],
+  "extends": ["github>freenet-group/mcbscore-renovate:node"],
   "assignees": ["DasBen"]
 }
