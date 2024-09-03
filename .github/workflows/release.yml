@@ -24,6 +24,7 @@ jobs:
     if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
     permissions:
       contents: write
+      actions: write
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -257,14 +258,19 @@ jobs:
           echo "Platzhalter im Template austauschen"
 
           ## Tabellen
+          # Leerzeile und Platzhalter ersetzten
           echo "IssueList setzen"
           echo "$issueListLines"
-          # Replace the placeholder and the preceding empty line
-          sed -i "/<!-- IMPLEMENTED_ISSUES_PLACEHOLDER -->/{n;s/^$/$issueListLines/}" "$template_file"
+          sed -i "/<!-- IMPLEMENTED_ISSUES_PLACEHOLDER -->/{
+          N;s/\n<!-- IMPLEMENTED_ISSUES_PLACEHOLDER -->/$issueListLines/
+          }" "$template_file"
+
+          # Leerzeile und Platzhalter ersetzten
           echo "Verlinkte Tickets setzen"
           echo "$linkedIssuesListLines"
-          # Replace the placeholder and the preceding empty line
-          sed -i "/<!-- IMPLEMENTED_LINKED_ISSUES_PLACEHOLDER -->/{n;s/^$/$linkedIssuesListLines/}" "$template_file"
+          sed -i "/<!-- IMPLEMENTED_LINKED_ISSUES_PLACEHOLDER -->/{
+          N;s/\n<!-- IMPLEMENTED_LINKED_ISSUES_PLACEHOLDER -->/$linkedIssuesListLines/
+          }" "$template_file"
 
           ## EPIC
           echo "EPIC setzen"
