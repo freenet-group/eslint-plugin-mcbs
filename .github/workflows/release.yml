@@ -262,16 +262,12 @@ jobs:
           # Leerzeile und Platzhalter ersetzten
           echo "IssueList setzen"
           echo "$issueListLines"
-          sed -i "/<!-- IMPLEMENTED_ISSUES_PLACEHOLDER -->/{
-          N;s/\n<!-- IMPLEMENTED_ISSUES_PLACEHOLDER -->/$issueListLines/
-          }" "$template_file"
+          sed -i "/^$/N;/\n<!-- IMPLEMENTED_ISSUES_PLACEHOLDER -->/s/.*/$issueListLines/" "$template_file"
 
           # Leerzeile und Platzhalter ersetzten
           echo "Verlinkte Tickets setzen"
           echo "$linkedIssuesListLines"
-          sed -i "/<!-- IMPLEMENTED_LINKED_ISSUES_PLACEHOLDER -->/{
-          N;s/\n<!-- IMPLEMENTED_LINKED_ISSUES_PLACEHOLDER -->/$linkedIssuesListLines/
-          }" "$template_file"
+          sed -i "/^$/N;/\n<!-- IMPLEMENTED_LINKED_ISSUES_PLACEHOLDER -->/s/.*/$linkedIssuesListLines/" "$template_file"
 
           ## EPIC
           echo "EPIC setzen"
