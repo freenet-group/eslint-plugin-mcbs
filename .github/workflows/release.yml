@@ -57,9 +57,12 @@ jobs:
         with:
           node-version: ${{ steps.read-properties.outputs.NODE_VERSION }}
           cache: 'npm'
+          registry-url: 'https://npm.pkg.github.com/'
 
       - name: Dependencies installieren
         run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_R_PACKAGES }}
 
       - name: SBOM Generieren
         if: ${{ steps.read-properties.outputs.SBOM_FILE != '' }}
@@ -116,7 +119,7 @@ jobs:
       - name: Release-Template einlesen und ausfüllen
         id: update_release_template
         run: |
-          template_file=".github/templates/release_template.md"
+          template_file=".github/templates/release_template_npmlib.md"
           issueList=""
           issueListLines=""
           linkIssuesListLines=""
@@ -132,19 +135,18 @@ jobs:
           echo "epic_list=" >> "$GITHUB_OUTPUT"
           echo "epic_due_date=" >> "$GITHUB_OUTPUT"
           echo "dependencies=false" >> "$GITHUB_OUTPUT"
-          echo "unique_issue_list=" >> "$GITHUB_OUTPUT"
 
           # Alle Issues auslesen
-          uniqueIssueList=$(echo "${{ steps.jira_keys.outputs.issue-keys }}" | tr ',' '\n' | sort -u | tr '\n' ',' | sed 's/,$//')
-          uniqueIssueList=${uniqueIssueList#"[]"}
-          echo "unique_issue_list=$uniqueIssueList"
+          if [ -n "${{ steps.jira_keys.outputs.issue-keys }}" ]; then
+            issueList=$(echo "${{ steps.jira_keys.outputs.issue-keys }}")
+          fi
 
           # Prüfen ob der Input "ticket" gesetzt wurde, wenn ja, dann hinzufügen
           if [ -n "${{ github.event.inputs.ticket }}" ]; then
-            if [ -z "$uniqueIssueList" ]; then
-              uniqueIssueList="${{ github.event.inputs.ticket }}"
+            if [ -z "$issueList" ]; then
+              issueList="${{ github.event.inputs.ticket }}"
             else
-              uniqueIssueList+=",${{ github.event.inputs.ticket }}"
+              issueList+=",${{ github.event.inputs.ticket }}"
             fi
           fi
 
@@ -153,22 +155,25 @@ jobs:
             prNumber=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")
             apiResponse=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${prNumber}/labels")
 
-            # Check if the response is an array or a string
+            # Prüfen ob es sich um ein Array oder einen String handelt
             if echo "$apiResponse" | jq -e 'type == "array"' > /dev/null; then
               prLabels=$(echo "$apiResponse" | jq -r ".[].name")
             else
               prLabels=$(echo "$apiResponse" | jq -r ".name")
             fi
 
-            # ABRMS-5265 ist ein Renovate-Platzhalterticket für DOGS
+            # ABRMS-5265 ist ein Renovate-Platzhalterticket, wenn renovate im PR-Label enthalten ist, dann hinzufügen
             if echo "$prLabels" | grep -q "renovate"; then
-              if [ -z "$uniqueIssueList" ]; then
-                uniqueIssueList="ABRMS-5265"
+              if [ -z "$issueList" ]; then
+                issueList="ABRMS-5265"
               else
-                uniqueIssueList+=",ABRMS-5265"
+                issueList+=",ABRMS-5265"
               fi
             fi
           fi
+
+          # Issue-Liste bereinigen
+          uniqueIssueList=$(echo "$issueList" | tr ',' '\n' | sort -u | tr '\n' ',' | sed 's/,$//')
 
           # IssueList / Implemented Issues
           echo "issue_list=$uniqueIssueList" >> "$GITHUB_OUTPUT"
@@ -195,12 +200,13 @@ jobs:
             AUTH_HEADER="Authorization: Basic $BASIC_AUTH"
             issue_info=$(curl -L -H "${AUTH_HEADER}" -H "Accept: application/json" "${API_ENDPOINT}")
 
-            # Extracting the epic key
+            # Epic / Parent ermitteln
             echo "Epic name for $issueNumber is being extracted"
             epicKey=$(echo "$issue_info" | jq -r '.fields.parent.key')
+            echo "Extracted epicKey: $epicKey"
             if [ -n "$epicKey" ] && [ "$epicKey" != "null" ]; then
               if [ -z "$epicList" ]; then
-                epicList="$epic_name"
+                epicList="$epicKey"
               else
                 epicList="$epicList,$epicKey"
               fi
@@ -261,16 +267,19 @@ jobs:
           ## Tabellen
           # Leerzeile und Platzhalter ersetzten
           echo "IssueList setzen"
+          escapedIssueListLines=$(echo "$issueListLines" | sed 's/[&/\]/\\&/g')
           echo "$issueListLines"
-          sed -i "/^$/N;/\n<!-- IMPLEMENTED_ISSUES_PLACEHOLDER -->/s/.*/$issueListLines/" "$template_file"
+          sed -i "/^$/N;/\n<!-- IMPLEMENTED_ISSUES_PLACEHOLDER -->/s~.*~$escapedIssueListLines~" "$template_file"
 
-          # Leerzeile und Platzhalter ersetzten
+          # Verlinkte Tickets setzen
           echo "Verlinkte Tickets setzen"
+          escapedLinkedIssuesListLines=$(echo "$linkedIssuesListLines" | sed 's/[&/\]/\\&/g')
           echo "$linkedIssuesListLines"
-          sed -i "/^$/N;/\n<!-- IMPLEMENTED_LINKED_ISSUES_PLACEHOLDER -->/s/.*/$linkedIssuesListLines/" "$template_file"
+          sed -i "/^$/N;/\n<!-- IMPLEMENTED_LINKED_ISSUES_PLACEHOLDER -->/s~.*~$escapedLinkedIssuesListLines~" "$template_file"
 
           ## EPIC
           echo "EPIC setzen"
+          echo "Final epicList: $epicList"
           if [ -n "$epicList" ]; then
             echo "epic_list=$epicList" >> "$GITHUB_OUTPUT"
             sed -i "s/<!-- EPIC_PLACEHOLDER -->/$epicList/" "$template_file";
@@ -292,6 +301,8 @@ jobs:
         uses: softprops/action-gh-release@v2.0.8
         with:
           body_path: '.github/templates/release_template.md'
+          files: |
+            ${{ steps.read-properties.outputs.SBOM_FILE }}
           generate_release_notes: true
           name: ${{ steps.version-calculation.outputs.new_version }}
           tag_name: ${{ steps.version-calculation.outputs.new_version }}
