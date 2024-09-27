@@ -1,3 +1,5 @@
+# Release
+
 ## Dependencies
 
 - Epic: <!-- EPIC_PLACEHOLDER -->
@@ -15,8 +17,8 @@
 
 ## Implementierte Issues
 
-| Issue | Beschreibung | Stichwörter | Komponenten |
-| ----- | ------------ | ----------- | ----------- |
+| Issue | Beschreibung | Status | Art der Verbindung |
+| ----- | ------------ | ------ | ------------------ |
 
 <!-- IMPLEMENTED_ISSUES_PLACEHOLDER -->
 
