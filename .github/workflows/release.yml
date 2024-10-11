@@ -106,7 +106,7 @@ jobs:
 
       - name: Semantic Version überschreiben, wenn eine spezifische Version angegeben wurde
         id: version-calculation
-        env: 
+        env:
           NEW_VERSION: ${{ steps.bump-semver.outputs.new_version }}
           INPUT_VERSION: ${{ github.event.inputs.version }}
         run: |
@@ -272,7 +272,7 @@ jobs:
 
           # Platzhalter austauschen
           echo "Platzhalter im Template austauschen"
-          
+
           ## Tabellen
           # Spezielle Sonderzeichen austauschen
           cleanedIssueListLines=$(printf '%s' "$issueListLines" | sed 's/[&/\#]/\\&/g')
