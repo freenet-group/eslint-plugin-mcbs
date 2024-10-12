@@ -85,7 +85,7 @@ jobs:
       - name: Dateinamen für SBOM Upload ermitteln
         if: ${{ steps.read-properties.outputs.SBOM_FILE != '' }}
         id: sbom-file-name
-        env:
+        env: 
           SBOM_FILE: ${{ steps.read-properties.outputs.SBOM_FILE }}
         run: echo "SBOM_FILE_NAME=$(basename -- "$SBOM_FILE")" >> $GITHUB_OUTPUT
 
