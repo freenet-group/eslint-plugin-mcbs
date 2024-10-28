@@ -1,4 +1,9 @@
 {
-  "extends": ["github>freenet-group/mcbscore-renovate:node"],
-  "assignees": ["carstenboltemd", "DasBen"]
+  "extends": [
+    "github>freenet-group/mcbscore-renovate:node"
+  ],
+  "assignees": [
+    "carstenboltemd",
+    "DasBen"
+  ]
 }
