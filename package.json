@@ -32,15 +32,15 @@
     "registry": "https://npm.pkg.github.com/"
   },
   "peerDependencies": {
-    "eslint": "9.11.1"
+    "eslint": "^8.0.0 || ^9.0.0"
   },
   "devDependencies": {
     "@cyclonedx/cyclonedx-npm": "1.19.3",
-    "@eslint/js": "9.11.1",
-    "eslint": "9.11.1",
+    "@eslint/js": "9.15.0",
+    "eslint": "9.9.1",
     "eslint-plugin-mocha": "10.5.0",
-    "globals": "15.9.0",
-    "mocha": "10.7.3",
-    "prettier": "3.3.3"
+    "globals": "15.12.0",
+    "mocha": "11.0.0",
+    "prettier": "3.4.1"
   }
 }
