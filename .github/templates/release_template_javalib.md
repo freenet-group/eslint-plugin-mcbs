@@ -8,8 +8,6 @@
 
 ## Test Ergebnisse
 
-- JUnit Result: <!-- JUNIT_RESULT_PLACEHOLDER -->
-- Cucumber Result: <!-- CUCUMBER_RESULT_PLACEHOLDER -->
 - Test Coverage: <!-- COVERAGE_PLACEHOLDER -->
 
 ## Implementierte Issues
