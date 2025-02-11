@@ -7,10 +7,6 @@ on:
   pull_request:
     types: [opened, reopened, edited, labeled, unlabeled, synchronize]
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   # Pflichtprüfungen
   check:
