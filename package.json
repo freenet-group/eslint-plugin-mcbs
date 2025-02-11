@@ -13,10 +13,10 @@
     "lint:test": "eslint tests/**/*.cjs",
     "lint:fix": "npm run lint:code -- --fix && npm run lint:test -- --fix",
     "mocha": "mocha 'tests/**/*.spec.cjs'",
-    "precommit": "npm run test && npm run lint:fix && npm run prettier:write ",
-    "prettier": "npm run prettier:write",
-    "prettier:check": "prettier -c .",
-    "prettier:write": "prettier -w -l .",
+    "precommit": "npm run test && npm run lint:fix && npm run format:write ",
+    "format": "npm run prettier:write",
+    "format:check": "prettier -c .",
+    "format:write": "prettier -w -l .",
     "test": "npm run mocha"
   },
   "repository": {
