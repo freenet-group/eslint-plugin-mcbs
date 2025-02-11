@@ -14,7 +14,7 @@
     "lint:fix": "npm run lint:code -- --fix && npm run lint:test -- --fix",
     "mocha": "mocha 'tests/**/*.spec.cjs'",
     "precommit": "npm run test && npm run lint:fix && npm run format:write ",
-    "format": "npm run prettier:write",
+    "format": "npm run format:write",
     "format:check": "prettier -c .",
     "format:write": "prettier -w -l .",
     "test": "npm run mocha"
