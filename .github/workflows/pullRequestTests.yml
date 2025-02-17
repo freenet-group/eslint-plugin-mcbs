@@ -12,9 +12,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Führt automatische Fixes aus
-  autofix:
+  # Führt automatische Fixes aus und testet die Library
+  test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       # Setup
       - name: AWS Credentials konfigurieren
@@ -59,37 +60,12 @@ jobs:
         run: npm run lint:fix && npm run prettier:write
 
       - name: Änderungen aus dem Autofix committen
+        id: auto-commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 'chore: run prettier:write and lint:fix'
 
-  # Führt Tests aus
-  test:
-    needs: autofix
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: workflow.config einlesen
-        id: read-properties
-        run: |
-          { cat .github/workflow.config; echo; } | tee -a -- "$GITHUB_OUTPUT"
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ steps.read-properties.outputs.NODE_VERSION }}
-          cache: 'npm'
-          registry-url: 'https://npm.pkg.github.com/'
-
-      - name: Dependencies installieren
-        run: npm ci --force
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_R_PACKAGES }}
-
-      - name: Build
-        run: npm run build
-
+      # Tests starten
       - name: Tests ausführen und Coverage generieren
+        if: ${{ steps.auto-commit.outputs.changes_detected == 'false' }}
         run: npm run test
