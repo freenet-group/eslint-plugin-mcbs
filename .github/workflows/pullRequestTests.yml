@@ -57,13 +57,13 @@ jobs:
 
       # Automatisch Fixes ausführen
       - name: Autofixes ausführen
-        run: npm run lint:fix && npm run prettier:write
+        run: npm run lint:fix && npm run format:write
 
       - name: Änderungen aus dem Autofix committen
         id: auto-commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'chore: run prettier:write and lint:fix'
+          commit_message: 'chore: run format:write and lint:fix'
 
       # Tests starten
       - name: Tests ausführen und Coverage generieren
