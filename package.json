@@ -7,7 +7,7 @@
   "main": "src/index.cjs",
   "scripts": {
     "build": "npm run generate:sbom",
-    "generate:sbom": "npx @cyclonedx/cyclonedx-npm --output-file ./src/.generated/sbom.json",
+    "generate:sbom": "npx @cyclonedx/cyclonedx-npm --spec-version 1.4 --output-file ./src/.generated/sbom.json",
     "lint": "npm run lint:code && npm run lint:test",
     "lint:code": "eslint src/**/*.cjs",
     "lint:test": "eslint tests/**/*.cjs",
