@@ -32,3 +32,8 @@ updates:
     labels:
       - "renovate"
       - "release:patch"
+    commit-message:
+      prefix: "fix"
+      prefix-development: "build"
+      include: "scope"
+
