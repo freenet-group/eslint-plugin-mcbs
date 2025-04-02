@@ -33,7 +33,5 @@ updates:
       - "renovate"
       - "release:patch"
     commit-message:
-      prefix: "fix"
-      prefix-development: "build"
+      prefix: "chore"
       include: "scope"
-
