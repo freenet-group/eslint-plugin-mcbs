@@ -202,12 +202,12 @@ jobs:
               prLabels=$(jq -r ".name" <<<"$apiResponse")
             fi
 
-            # ABRMS-5265 ist ein Renovate-Platzhalterticket, wenn renovate im PR-Label enthalten ist, dann hinzufügen
+            # MCBS-5428 ist ein Renovate-Platzhalterticket, wenn renovate im PR-Label enthalten ist, dann hinzufügen
             if echo "$prLabels" | grep -q "renovate"; then
               if [ -z "$issueList" ]; then
-                issueList="ABRMS-5265"
+                issueList="MCBS-5428"
               else
-                issueList+=",ABRMS-5265"
+                issueList+=",MCBS-5428"
               fi
             fi
           fi
@@ -224,9 +224,9 @@ jobs:
             echo "$issueNumber wird eingelesen"
 
             # Renovate Ticket überspringen, Rest aber prüfen
-            if [ "$issueNumber" = "ABRMS-5265" ]; then
+            if [ "$issueNumber" = "MCBS-5428" ]; then
               title="${{ github.event.pull_request.title }}"
-              issueListLines+="| ABRMS-5265 | $title | Renovate | Renovate |"$'\n'
+              issueListLines+="| MCBS-5428 | $title | Renovate | Renovate |"$'\n'
               echo "renovate=true" >> "$GITHUB_OUTPUT"
               echo "renovate_title=$title" >> "$GITHUB_OUTPUT"
               continue  # Rest überspringen
