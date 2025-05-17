@@ -20,14 +20,14 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Read and set AWS credentials
+    - name: Setzt die AWS Anmeldeinformationen
       uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-access-key-id: ${{ inputs.awsAccessKeyId }}
         aws-secret-access-key: ${{ inputs.awsSecretAccessKey }}
         aws-region: 'eu-central-1'
 
-    - name: Read AWS Parameters
+    - name: Überträgt Einträge aus dem Parameter Store in Umgebungsvariablen
       uses: dkershner6/aws-ssm-getparameters-action@v2
       with:
         parameterPairs: ${{ inputs.awsParameterPairs }}
